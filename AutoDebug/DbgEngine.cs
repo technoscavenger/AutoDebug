@@ -44,7 +44,9 @@ namespace AutoDebug
             if (!hr.IsOK)
                 throw new Exception($"Failed to create DebugClient, hr={hr:x}.");
 
+#pragma warning disable CA1416 // Validate platform compatibility
             _client = (IDebugClient)Marshal.GetTypedObjectForIUnknown(pDebugClient, typeof(IDebugClient));
+#pragma warning restore CA1416 // Validate platform compatibility
             _control = (IDebugControl)_client;
 
             hr = _client.OpenDumpFile(dumpfilename);
@@ -55,7 +57,9 @@ namespace AutoDebug
             if (!hr.IsOK)
                 throw new Exception($"Failed to attach to dump file, hr={hr:x}.");
 
+#pragma warning disable CA1416 // Validate platform compatibility
             Marshal.Release(pDebugClient);
+#pragma warning restore CA1416 // Validate platform compatibility
 
             // ClrMD API DataTarget instance
             DataTargetInstance = DataTarget.CreateFromDbgEng(pDebugClient);
